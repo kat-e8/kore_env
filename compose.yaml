@@ -58,7 +58,6 @@ services:
       gw-network:
         aliases:
           - mail-server
-
 networks:
   kore-gw-network:
 volumes:
@@ -66,3 +65,5 @@ volumes:
   kore-sqldb-data:
 
 #I am making changes from the forked repo, what do you mean that everything is identical?
+#bad day at the office
+#but I'll keep going ,not everything is broken
