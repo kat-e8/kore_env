@@ -1,0 +1,68 @@
+services:
+ kore-gw:
+    build:
+      context: gw-build
+      args:
+        IGNITION_VERSION: 8.1.48
+    hostname: kore_gw
+    container_name: kore_gw
+    ports:
+      - 9099:8088
+    labels:
+      tsdproxy.enable: true
+      tsdproxy.ephemeral: false
+    restart: unless-stopped
+    volumes:
+      - kore-gw-data:/usr/local/bin/ignition/data
+    #  - ./gw-init/gateway.gwbk:/restore.gwbk
+    #  - ./gw-init/gateway-uuid.txt:/usr/local/bin/ignition/data/.uuid
+    #  - ./gw-init/gateway-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
+    networks:
+      - kore-gw-network
+    environment:
+      - IGNITION_EDITION=standard
+      - GATEWAY_ADMIN_PASSWORD=katlego
+      - ACCEPT_IGNITION_EULA=Y
+    command: >
+      -n gw
+      -m 2048
+   #   -r /restore.gwbk
+  kore-sqldb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: kore_sqldb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=yourStrong(!)Password
+      - MSSQL_PID=Developer
+    ports:
+      - 1439:1433
+    volumes:
+      - kore-sqldb-data:/var/opt/mssql
+    restart: always
+    networks:
+      kore-gw-network:
+        aliases:
+          - main-db
+  kore-smtp:
+    image: dockage/mailcatcher:0.8.2
+    container_name: kore_smtp
+    hostname: kore_srv
+    labels:
+      tsdproxy.enable: true
+      tsdproxy.ephemeral: false
+    restart: unless-stopped
+    ports:
+      - 1082:1080
+      - 1027:1025
+    networks:
+      gw-network:
+        aliases:
+          - mail-server
+
+networks:
+  kore-gw-network:
+volumes:
+  kore-gw-data:
+  kore-sqldb-data:
+
+#I am making changes from the forked repo, what do you mean that everything is identical?
