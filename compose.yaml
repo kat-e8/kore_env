@@ -1,5 +1,5 @@
 services:
- core-gw:
+  core-gw:
     build:
       context: gw-build
       args:
