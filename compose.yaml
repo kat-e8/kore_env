@@ -55,7 +55,7 @@ services:
       - 1082:1080
       - 1027:1025
     networks:
-      gw-network:
+      kore-gw-network:
         aliases:
           - mail-server
 networks:
