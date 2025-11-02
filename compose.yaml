@@ -7,7 +7,7 @@ services:
     hostname: core_gw
     container_name: e8-core-gw
     ports:
-      - 9099:8088
+      - 9059:8088
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
