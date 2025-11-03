@@ -5,7 +5,7 @@ services:
       args:
         IGNITION_VERSION: 8.1.48
     hostname: core_gw
-    container_name: e8-core-gw
+    container_name: core-gw
     ports:
       - 9059:8088
     labels:
@@ -29,7 +29,7 @@ services:
    #   -r /restore.gwbk
   kore-sqldb:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: e8-core-sqldb
+    container_name: core-sqldb
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=yourStrong(!)Password
@@ -45,7 +45,7 @@ services:
           - main-db
   kore-smtp:
     image: dockage/mailcatcher:0.8.2
-    container_name: e8-core-smtp
+    container_name: core-smtp
     hostname: kore_srv
     labels:
       tsdproxy.enable: true
